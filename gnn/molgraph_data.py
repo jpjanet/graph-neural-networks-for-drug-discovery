@@ -48,8 +48,9 @@ class MolGraphDataset(data.Dataset):
 rdLogger = rdkit.RDLogger.logger()
 rdLogger.setLevel(rdkit.RDLogger.ERROR)
 
-def smile_to_graph(smile):
-    molecule = Chem.MolFromSmiles(smile)
+
+def mol_to_graph(molecule):
+
     n_atoms = molecule.GetNumAtoms()
     atoms = [molecule.GetAtomWithIdx(i) for i in range(n_atoms)]
 
@@ -66,6 +67,14 @@ def smile_to_graph(smile):
         edge_features[j, i, bond_type] = 1
 
     return adjacency, node_features, edge_features
+
+
+
+def smile_to_graph(smile):
+    molecule = Chem.MolFromSmiles(smile)
+
+
+    return mol_to_graph(molecule)
 
 # rdkit GetBondType() result -> int
 BONDTYPE_TO_INT = defaultdict(
